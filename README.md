@@ -1,5 +1,5 @@
 <h3>Connect to MySQL database:</h3>
-<pre><code class="lang-php">include &#039;db.php&#039;;
+<pre><code class="lang-php">include &#039;mysql_db_class.php&#039;;
 
 $dbhost = &#039;localhost&#039;;
 $dbuser = &#039;root&#039;;
