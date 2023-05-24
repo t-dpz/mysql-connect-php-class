@@ -1,32 +1,45 @@
-<strong>Connect to MySQL database:</strong>
-<pre class=" language-php"><code class=" language-php"><span class="token keyword">include</span> <span class="token string">'db.php'</span><span class="token punctuation">;</span>
+<h3>Connect to MySQL database:</h3>
+<pre><code class="lang-php">include &#039;db.php&#039;;
 
-<span class="token variable">$dbhost</span> <span class="token operator">=</span> <span class="token string">'localhost'</span><span class="token punctuation">;</span>
-<span class="token variable">$dbuser</span> <span class="token operator">=</span> <span class="token string">'root'</span><span class="token punctuation">;</span>
-<span class="token variable">$dbpass</span> <span class="token operator">=</span> <span class="token string">''</span><span class="token punctuation">;</span>
-<span class="token variable">$dbname</span> <span class="token operator">=</span> <span class="token string">'example'</span><span class="token punctuation">;</span>
+$dbhost = &#039;localhost&#039;;
+$dbuser = &#039;root&#039;;
+$dbpass = &#039;&#039;;
+$dbname = &#039;example&#039;;
 
-<span class="token variable">$db</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">db</span><span class="token punctuation">(</span><span class="token variable">$dbhost</span><span class="token punctuation">,</span> <span class="token variable">$dbuser</span><span class="token punctuation">,</span> <span class="token variable">$dbpass</span><span class="token punctuation">,</span> <span class="token variable">$dbname</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+$db = new db($dbhost, $dbuser, $dbpass, $dbname);</code></pre>
+<br>
+<h3>Fetch a record from a database:</h3>
+<pre><code class="lang-php">$account = $db-&gt;query(&#039;SELECT * FROM accounts WHERE username = ? AND password = ?&#039;, &#039;test&#039;, &#039;test&#039;)-&gt;fetchArray();
+echo $account[&#039;name&#039;];</code></pre>
+<p>Or you could do:</p>
+<pre><code class="lang-php">$account = $db-&gt;query(&#039;SELECT * FROM accounts WHERE username = ? AND password = ?&#039;, array(&#039;test&#039;, &#039;test&#039;))-&gt;fetchArray();
+echo $account[&#039;name&#039;];</code></pre>
+<br>
+<h3>Fetch multiple records from a database:</h3>
+<pre><code class="lang-php">$accounts = $db-&gt;query(&#039;SELECT * FROM accounts&#039;)-&gt;fetchAll();
 
-<strong>Examples</strong>
-<pre class=" language-php"><code class=" language-php"><span class="token variable">$account</span> <span class="token operator">=</span> <span class="token variable">$db</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">query</span><span class="token punctuation">(</span><span class="token string">'SELECT * FROM accounts WHERE username = ? AND password = ?'</span><span class="token punctuation">,</span> <span class="token string">'test'</span><span class="token punctuation">,</span> <span class="token string">'test'</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">fetchArray</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">echo</span> <span class="token variable">$account</span><span class="token punctuation">[</span><span class="token string">'name'</span><span class="token punctuation">]</span><span class="token punctuation">;</span></code></pre>
-
-<pre class=" language-php"><code class=" language-php"><span class="token variable">$account</span> <span class="token operator">=</span> <span class="token variable">$db</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">query</span><span class="token punctuation">(</span><span class="token string">'SELECT * FROM accounts WHERE username = ? AND password = ?'</span><span class="token punctuation">,</span> <span class="token keyword">array</span><span class="token punctuation">(</span><span class="token string">'test'</span><span class="token punctuation">,</span> <span class="token string">'test'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">fetchArray</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">echo</span> <span class="token variable">$account</span><span class="token punctuation">[</span><span class="token string">'name'</span><span class="token punctuation">]</span><span class="token punctuation">;</span></code></pre>
-
-<pre class=" language-php"><code class=" language-php"><span class="token variable">$accounts</span> <span class="token operator">=</span> <span class="token variable">$db</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">query</span><span class="token punctuation">(</span><span class="token string">'SELECT * FROM accounts'</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">fetchAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-<span class="token keyword">foreach</span> <span class="token punctuation">(</span><span class="token variable">$accounts</span> <span class="token keyword">as</span> <span class="token variable">$account</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-	<span class="token keyword">echo</span> <span class="token variable">$account</span><span class="token punctuation">[</span><span class="token string">'name'</span><span class="token punctuation">]</span> <span class="token punctuation">.</span> <span class="token string">'&lt;br&gt;'</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span></code></pre>
-
-<pre class=" language-php"><code class=" language-php"><span class="token variable">$db</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">query</span><span class="token punctuation">(</span><span class="token string">'SELECT * FROM accounts'</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">fetchAll</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token variable">$account</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    <span class="token keyword">echo</span> <span class="token variable">$account</span><span class="token punctuation">[</span><span class="token string">'name'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-
-<pre class=" language-php"><code class=" language-php"><span class="token variable">$accounts</span> <span class="token operator">=</span> <span class="token variable">$db</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">query</span><span class="token punctuation">(</span><span class="token string">'SELECT * FROM accounts'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">echo</span> <span class="token variable">$accounts</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">numRows</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-
-<pre class=" language-php"><code class=" language-php"><span class="token variable">$insert</span> <span class="token operator">=</span> <span class="token variable">$db</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">query</span><span class="token punctuation">(</span><span class="token string">'INSERT INTO accounts (username,password,email,name) VALUES (?,?,?,?)'</span><span class="token punctuation">,</span> <span class="token string">'test'</span><span class="token punctuation">,</span> <span class="token string">'test'</span><span class="token punctuation">,</span> <span class="token string">'test@gmail.com'</span><span class="token punctuation">,</span> <span class="token string">'Test'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token keyword">echo</span> <span class="token variable">$insert</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">affectedRows</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+foreach ($accounts as $account) {
+	echo $account[&#039;name&#039;] . &#039;&lt;br&gt;&#039;;
+}</code></pre>
+<p>You can specify a callback if you do not want the results being stored in an array (useful for large amounts of data):</p>
+<pre><code class="language-php">$db-&gt;query(&#039;SELECT * FROM accounts&#039;)-&gt;fetchAll(function($account) {
+    echo $account[&#039;name&#039;];
+});</code></pre>
+<p>If you need to break the loop you can add:</p>
+<pre><code class="language-php">return &#039;break&#039;; </code></pre>
+<h3>Get the number of rows:</h3>
+<pre><code class="lang-php">$accounts = $db-&gt;query(&#039;SELECT * FROM accounts&#039;);
+echo $accounts-&gt;numRows();</code></pre>
+<br>
+<h3>Get the affected number of rows:</h3>
+<pre><code class="lang-php">$insert = $db-&gt;query(&#039;INSERT INTO accounts (username,password,email,name) VALUES (?,?,?,?)&#039;, &#039;test&#039;, &#039;test&#039;, &#039;test@gmail.com&#039;, &#039;Test&#039;);
+echo $insert-&gt;affectedRows();</code></pre>
+<br>
+<h3>Get the total number of queries:</h3>
+<pre><code class="lang-php">echo $db-&gt;query_count;</code></pre>
+<br>
+<h3>Get the last insert ID:</h3>
+<pre><code class="lang-php">echo $db-&gt;lastInsertID();</code></pre>
+<br>
+<h3>Close the database:</h3>
+<pre><code class="lang-php">$db-&gt;close();</code></pre>
